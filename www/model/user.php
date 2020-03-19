@@ -3,7 +3,7 @@
 require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
 
-//usersテーブルの$user_idと同じuser_idがあれば
+//usersテーブルの$user_idと同じuser_idを１つ指定
 function get_user($db, $user_id){
   $sql = "
     SELECT
@@ -17,11 +17,11 @@ function get_user($db, $user_id){
       user_id = {$user_id}
     LIMIT 1
   ";
-
+  //db.phpのfetch_queryでデータを取得
   return fetch_query($db, $sql);
 }
 
-//
+//usersテーブルの$nameと同じnameを１つ指定
 function get_user_by_name($db, $name){
   $sql = "
     SELECT
@@ -35,10 +35,11 @@ function get_user_by_name($db, $name){
       name = '{$name}'
     LIMIT 1
   ";
-
+  //db.phpのfetch_queryでデータを取得
   return fetch_query($db, $sql);
 }
 
+//
 function login_as($db, $name, $password){
   $user = get_user_by_name($db, $name);
   if($user === false || $user['password'] !== $password){
