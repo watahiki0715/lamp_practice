@@ -16,7 +16,7 @@
     <!--phpファイル(message部)の読み込み-->
     <?php include VIEW_PATH . 'templates/messages.php'; ?>
 
-    <!--ログインが押されたら「login_process.php」にPOST-->
+    <!--ログインが押されたら入力された値を「login_process.php」にPOST-->
     <form method="post" action="login_process.php" class="login_form mx-auto">
       <div class="form-group">
         <label for="name">名前: </label>

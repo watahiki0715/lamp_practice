@@ -1,7 +1,9 @@
 <?php
+//ファイル読み込み
 require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
 
+//usersテーブルの$user_idと同じuser_idがあれば
 function get_user($db, $user_id){
   $sql = "
     SELECT
@@ -19,6 +21,7 @@ function get_user($db, $user_id){
   return fetch_query($db, $sql);
 }
 
+//
 function get_user_by_name($db, $name){
   $sql = "
     SELECT
