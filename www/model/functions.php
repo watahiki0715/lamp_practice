@@ -1,15 +1,19 @@
 <?php
 
+//引数をダンプして終了
 function dd($var){
   var_dump($var);
   exit();
 }
 
+//引数(url)にリダイレクトして終了
 function redirect_to($url){
   header('Location: ' . $url);
   exit;
 }
 
+//$_GET配列の引数の値が入っていたらその値を返す
+//入っていなかったら''を返す
 function get_get($name){
   if(isset($_GET[$name]) === true){
     return $_GET[$name];
@@ -17,6 +21,8 @@ function get_get($name){
   return '';
 }
 
+///$_POST配列の引数の値が入っていたらその値を返す
+//入っていなかったら''を返す
 function get_post($name){
   if(isset($_POST[$name]) === true){
     return $_POST[$name];
@@ -24,6 +30,8 @@ function get_post($name){
   return '';
 }
 
+///$_FILES配列の引数の値が入っていたら(ファイルがアップロードされたら)その値を返す
+//入っていなかったら空の配列を返す
 function get_file($name){
   if(isset($_FILES[$name]) === true){
     return $_FILES[$name];
@@ -31,6 +39,8 @@ function get_file($name){
   return array();
 }
 
+//$_SESSION配列の引数の値が入っていたらその値を返す
+//入っていなかったら''を返す
 function get_session($name){
   if(isset($_SESSION[$name]) === true){
     return $_SESSION[$name];
@@ -38,14 +48,20 @@ function get_session($name){
   return '';
 }
 
+//$_SESSION配列の$nameに$valueを入れる
 function set_session($name, $value){
   $_SESSION[$name] = $value;
 }
 
+//$_SESSION['__errors']配列に引数を追加
 function set_error($error){
   $_SESSION['__errors'][] = $error;
 }
 
+//get_session関数で$_SESSION['__errors']を取得し$errorsに入れる
+//$errorsが''なら空の配列を返す
+//set_session関数で$_SESSION['__errors']に空の配列を入れて初期化
+//$errorsを返す
 function get_errors(){
   $errors = get_session('__errors');
   if($errors === ''){
@@ -55,14 +71,20 @@ function get_errors(){
   return $errors;
 }
 
+//「$_SESSION['__errors']が入っている&$_SESSION['__errors']に入っている値の数が0でない」を返す
 function has_error(){
   return isset($_SESSION['__errors']) && count($_SESSION['__errors']) !== 0;
 }
 
+//$_SESSION['__messages']配列に引数を追加
 function set_message($message){
   $_SESSION['__messages'][] = $message;
 }
 
+//get_session関数で$_SESSION['__messages']を取得し$messagesに入れる
+//$messagesが''の場合空の配列を返す
+//set_session関数で$_SESSION['__messages']に空の配列を入れて初期化
+//$messagesを返す
 function get_messages(){
   $messages = get_session('__messages');
   if($messages === ''){
@@ -72,6 +94,7 @@ function get_messages(){
   return $messages;
 }
 
+//get_session関数で$_SESSION['user_id']を取得し「$_SESSION['user_id']が''でない」を返す
 function is_logined(){
   return get_session('user_id') !== '';
 }
@@ -134,6 +157,8 @@ function is_valid_upload_image($image){
   }
   return true;
 }
+
+//引数をhtmlエスケープ処理する
 function h($string){
   return htmlspecialchars($string,ENT_QUOTES,"UTF-8");
 }
