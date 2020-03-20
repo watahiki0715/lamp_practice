@@ -143,12 +143,12 @@ function is_valid_length($string, $minimum_length, $maximum_length = PHP_INT_MAX
   return ($minimum_length <= $length) && ($length <= $maximum_length);
 }
 
-//引数が英数字のみならtrue,違うならfalseを返す
+//引数が半角英数字のみならtrue,違うならfalseを返す
 function is_alphanumeric($string){
   return is_valid_format($string, REGEXP_ALPHANUMERIC);
 }
 
-//引数が数字のみならtrue,違うならfalseを返す
+//引数が半角数字の整数のみならtrue,違うならfalseを返す
 function is_positive_integer($string){
   return is_valid_format($string, REGEXP_POSITIVE_INTEGER);
 }
