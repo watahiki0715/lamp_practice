@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+  <!--head.php(css,scriptなど)の読み込み-->
   <?php include VIEW_PATH . 'templates/head.php'; ?>
   <title>カート</title>
+  <!--cssファイルの読み込み-->
   <link rel="stylesheet" href="<?php print(STYLESHEET_PATH . 'cart.css'); ?>">
 </head>
 <body>
+  <!--phpファイルの読み込み-->
   <?php include VIEW_PATH . 'templates/header_logined.php'; ?>
   <h1>カート</h1>
   <div class="container">
 
+    <!--phpファイルの読み込み-->
     <?php include VIEW_PATH . 'templates/messages.php'; ?>
 
+    <!--カートの数が0より大きい場合表示-->
     <?php if(count($carts) > 0){ ?>
       <table class="table table-bordered">
         <thead class="thead-light">
@@ -55,10 +60,12 @@
       <form method="post" action="finish.php">
         <input class="btn btn-block btn-primary" type="submit" value="購入する">
       </form>
+    <!--カートの数が0より小さい場合表示-->
     <?php } else { ?>
       <p>カートに商品はありません。</p>
     <?php } ?> 
   </div>
+  <!--削除が押されたら確認ダイアログボックスを表示させる-->
   <script>
     $('.delete').on('click', () => confirm('本当に削除しますか？'))
   </script>

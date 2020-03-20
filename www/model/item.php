@@ -4,6 +4,7 @@ require_once MODEL_PATH . 'db.php';
 
 // DB利用
 
+//
 function get_item($db, $item_id){
   $sql = "
     SELECT

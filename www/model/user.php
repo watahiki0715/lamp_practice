@@ -59,7 +59,8 @@ function get_login_user($db){
   return get_user($db, $login_user_id);
 }
 
-//
+//is_valid_user関数でfalseがあればfalseを返す
+//なければinsert_user関数で登録
 function regist_user($db, $name, $password, $password_confirmation) {
   if( is_valid_user($name, $password, $password_confirmation) === false){
     return false;
@@ -74,7 +75,7 @@ function is_admin($user){
   return $user['type'] === USER_TYPE_ADMIN;
 }
 
-//
+//条件指定
 function is_valid_user($name, $password, $password_confirmation){
   // 短絡評価を避けるため一旦代入。
   $is_valid_user_name = is_valid_user_name($name);
