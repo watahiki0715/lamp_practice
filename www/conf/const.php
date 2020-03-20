@@ -1,5 +1,7 @@
 <?php
 
+//名前を指定して定数を定義
+
 define('MODEL_PATH', $_SERVER['DOCUMENT_ROOT'] . '/../model/');
 define('VIEW_PATH', $_SERVER['DOCUMENT_ROOT'] . '/../view/');
 
