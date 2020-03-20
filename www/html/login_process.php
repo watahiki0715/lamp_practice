@@ -16,17 +16,20 @@ if(is_logined() === true){
 $name = get_post('name');
 $password = get_post('password');
 
-//user.php  db.php  データベースに接続する関数を取得
+//データベースに接続
 $db = get_db_connect();
 
 
-//user.php  
+//user.phpのlogin_as関数でfalseならエラーを追加しLOGINにリダイレクト
 $user = login_as($db, $name, $password);
 if( $user === false){
   set_error('ログインに失敗しました。');
   redirect_to(LOGIN_URL);
 }
 
+//user.phpのlogin_as関数でログイン
+//$user['type']がUSER_TYPE_ADMINならADMINにリダイレクト
+//それ以外ならHOMEにリダイレクト
 set_message('ログインしました。');
 if ($user['type'] === USER_TYPE_ADMIN){
   redirect_to(ADMIN_URL);

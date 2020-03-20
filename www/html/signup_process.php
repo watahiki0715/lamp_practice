@@ -34,6 +34,7 @@ try{
 
 //user.phpのregist_user関数がtrueならメッセージを追加
 set_message('ユーザー登録が完了しました。');
-//user.phpのlogin_as関数でユーザーのレコードを取得
+//user.phpのlogin_as関数でログイン
 login_as($db, $name, $password);
+//HOMEにリダイレクト
 redirect_to(HOME_URL);

@@ -111,7 +111,10 @@ function delete_cart($db, $cart_id){
   return execute_query($db, $sql);
 }
 
-//
+//validate_cart_purchase関数がfalseならfalseを返して終了
+//trueなら商品の在庫から購入する商品の数量を引いて在庫を更新
+//更新失敗ならエラーを追加
+//繰り返し処理終了後に指定されたユーザーのカートのレコードを削除
 function purchase_carts($db, $carts){
   if(validate_cart_purchase($carts) === false){
     return false;
@@ -129,6 +132,7 @@ function purchase_carts($db, $carts){
   delete_user_carts($db, $carts[0]['user_id']);
 }
 
+//指定されたユーザーidのカートのレコードを削除
 function delete_user_carts($db, $user_id){
   $sql = "
     DELETE FROM
@@ -141,6 +145,7 @@ function delete_user_carts($db, $user_id){
 }
 
 
+//カートの商品の合計金額を取得
 function sum_carts($carts){
   $total_price = 0;
   foreach($carts as $cart){

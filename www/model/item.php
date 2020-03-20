@@ -108,6 +108,7 @@ function update_item_status($db, $item_id, $status){
   return execute_query($db, $sql);
 }
 
+//商品の在庫の更新
 function update_item_stock($db, $item_id, $stock){
   $sql = "
     UPDATE

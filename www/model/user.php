@@ -40,8 +40,7 @@ function get_user_by_name($db, $name){
 }
 
 //get_user_by_name関数でレコードの取得に失敗したかパスワードが違う場合はfalseを返す
-//functions.phpのset_session関数で$_SESSION['user_id]に$user['user_id']を入れて$userを返す
-//(レコードを取得した配列)
+//functions.phpのset_session関数でログイン
 function login_as($db, $name, $password){
   $user = get_user_by_name($db, $name);
   if($user === false || $user['password'] !== $password){
