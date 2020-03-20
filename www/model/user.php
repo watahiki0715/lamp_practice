@@ -3,7 +3,7 @@
 require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
 
-//usersテーブルの$user_idと同じuser_idを１つ指定
+//usersテーブルの$user_idと同じuser_idのレコードを取得
 function get_user($db, $user_id){
   $sql = "
     SELECT
@@ -17,11 +17,11 @@ function get_user($db, $user_id){
       user_id = {$user_id}
     LIMIT 1
   ";
-  //db.phpのfetch_queryでデータを取得
+  //db.phpのfetch_queryでレコードを取得
   return fetch_query($db, $sql);
 }
 
-//usersテーブルの$nameと同じnameを１つ指定
+//usersテーブルの$nameと同じnameのレコードを取得
 function get_user_by_name($db, $name){
   $sql = "
     SELECT
@@ -35,11 +35,13 @@ function get_user_by_name($db, $name){
       name = '{$name}'
     LIMIT 1
   ";
-  //db.phpのfetch_queryでデータを取得
+  //db.phpのfetch_queryでレコードを取得
   return fetch_query($db, $sql);
 }
 
-//
+//get_user_by_name関数でレコードの取得に失敗したかパスワードが違う場合はfalseを返す
+//functions.phpのset_session関数で$_SESSION['user_id]に$user['user_id']を入れて$userを返す
+//(レコードを取得した配列)
 function login_as($db, $name, $password){
   $user = get_user_by_name($db, $name);
   if($user === false || $user['password'] !== $password){
@@ -49,12 +51,15 @@ function login_as($db, $name, $password){
   return $user;
 }
 
+//functions.phpのget_session関数で$_SESSION['user_id']を取得
+//get_user関数で同じuser_idのレコードを取得して返す
 function get_login_user($db){
   $login_user_id = get_session('user_id');
 
   return get_user($db, $login_user_id);
 }
 
+//
 function regist_user($db, $name, $password, $password_confirmation) {
   if( is_valid_user($name, $password, $password_confirmation) === false){
     return false;
@@ -63,10 +68,13 @@ function regist_user($db, $name, $password, $password_confirmation) {
   return insert_user($db, $name, $password);
 }
 
+//ユーザーtypeがUSER_TYPE_ADMIN(1)の場合trueを返す
+//違う場合はfaleを返す
 function is_admin($user){
   return $user['type'] === USER_TYPE_ADMIN;
 }
 
+//
 function is_valid_user($name, $password, $password_confirmation){
   // 短絡評価を避けるため一旦代入。
   $is_valid_user_name = is_valid_user_name($name);
@@ -74,6 +82,9 @@ function is_valid_user($name, $password, $password_confirmation){
   return $is_valid_user_name && $is_valid_password ;
 }
 
+//functions.phpのis_valid_lengthで文字数が6以上100以下がfalseならエラー追加
+//パスワードが半角英数字でない場合はエラー追加
+//全て当てはまらない場合はtrue,一つでも当てはまる場合はfalseを返す
 function is_valid_user_name($name) {
   $is_valid = true;
   if(is_valid_length($name, USER_NAME_LENGTH_MIN, USER_NAME_LENGTH_MAX) === false){
@@ -87,6 +98,10 @@ function is_valid_user_name($name) {
   return $is_valid;
 }
 
+//functions.phpのis_valid_lengthで文字数が6以上100以下がfalseならエラー追加
+//パスワードが半角英数字でない場合はエラー追加
+//パスワードと確認用パスワードが一致しない場合はエラー追加
+//全て当てはまらない場合はtrue,一つでも当てはまる場合はfalseを返す
 function is_valid_password($password, $password_confirmation){
   $is_valid = true;
   if(is_valid_length($password, USER_PASSWORD_LENGTH_MIN, USER_PASSWORD_LENGTH_MAX) === false){
@@ -104,6 +119,7 @@ function is_valid_password($password, $password_confirmation){
   return $is_valid;
 }
 
+//入力された$nameと$passwordをDBテーブルに登録
 function insert_user($db, $name, $password){
   $sql = "
     INSERT INTO
@@ -111,6 +127,7 @@ function insert_user($db, $name, $password){
     VALUES ('{$name}', '{$password}');
   ";
 
+  //DBテーブルを更新
   return execute_query($db, $sql);
 }
 

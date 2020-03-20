@@ -127,24 +127,30 @@ function delete_image($filename){
 
 
 
+//入力された文字列の文字数を取得
+//指定文字数内ならtrue  それ以外はfalseを返す 
 function is_valid_length($string, $minimum_length, $maximum_length = PHP_INT_MAX){
   $length = mb_strlen($string);
   return ($minimum_length <= $length) && ($length <= $maximum_length);
 }
 
+//
 function is_alphanumeric($string){
   return is_valid_format($string, REGEXP_ALPHANUMERIC);
 }
 
+//
 function is_positive_integer($string){
   return is_valid_format($string, REGEXP_POSITIVE_INTEGER);
 }
 
+//
 function is_valid_format($string, $format){
   return preg_match($format, $string) === 1;
 }
 
 
+//
 function is_valid_upload_image($image){
   if(is_uploaded_file($image['tmp_name']) === false){
     set_error('ファイル形式が不正です。');

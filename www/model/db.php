@@ -21,7 +21,8 @@ function get_db_connect(){
   return $dbh;
 }
 
-//DBの一つ目のレコード取得
+//DBテーブルの一つ目のレコード取得
+//失敗した場合はfalseを返す
 function fetch_query($db, $sql, $params = array()){
   try{
     // SQL文を実行する準備
@@ -37,7 +38,8 @@ function fetch_query($db, $sql, $params = array()){
   return false;
 }
 
-//DBの全てのレコード取得
+//DBテーブルの全てのレコード取得
+//失敗した場合はfalseを返す
 function fetch_all_query($db, $sql, $params = array()){
   try{
     // SQL文を実行する準備
@@ -53,10 +55,15 @@ function fetch_all_query($db, $sql, $params = array()){
   return false;
 }
 
+//DBテーブルを更新
+//失敗した場合はfalseを返す
 function execute_query($db, $sql, $params = array()){
   try{
+    // SQL文を実行する準備
     $statement = $db->prepare($sql);
+    // SQLを実行
     return $statement->execute($params);
+   //function.phpのset_error関数によりエラーを追加
   }catch(PDOException $e){
     set_error('更新に失敗しました。');
   }
