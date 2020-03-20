@@ -1,7 +1,10 @@
 <?php 
+//ファイル読み込み
 require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
 
+//user_idが一致したcartテーブルのレコード全て取得
+//失敗したらfalseを返す
 function get_user_carts($db, $user_id){
   $sql = "
     SELECT
@@ -26,6 +29,8 @@ function get_user_carts($db, $user_id){
   return fetch_all_query($db, $sql);
 }
 
+//user_idとitem_idが一致したcartテーブルのレコードを一つ取得
+//失敗したらfalseを返す
 function get_user_cart($db, $user_id, $item_id){
   $sql = "
     SELECT
@@ -54,6 +59,8 @@ function get_user_cart($db, $user_id, $item_id){
 
 }
 
+//get_user_cart関数で取得できなかったらinsert_cart関数で商品をカートに追加
+//取得できたらupdate_cart_amount関数でカートの商品のamountに1追加
 function add_cart($db, $user_id, $item_id ) {
   $cart = get_user_cart($db, $user_id, $item_id);
   if($cart === false){
@@ -62,6 +69,7 @@ function add_cart($db, $user_id, $item_id ) {
   return update_cart_amount($db, $cart['cart_id'], $cart['amount'] + 1);
 }
 
+//カートに商品を登録
 function insert_cart($db, $user_id, $item_id, $amount = 1){
   $sql = "
     INSERT INTO
@@ -76,6 +84,7 @@ function insert_cart($db, $user_id, $item_id, $amount = 1){
   return execute_query($db, $sql);
 }
 
+//カートの商品のamountを更新
 function update_cart_amount($db, $cart_id, $amount){
   $sql = "
     UPDATE
@@ -89,6 +98,7 @@ function update_cart_amount($db, $cart_id, $amount){
   return execute_query($db, $sql);
 }
 
+//カート商品を削除
 function delete_cart($db, $cart_id){
   $sql = "
     DELETE FROM
@@ -101,6 +111,7 @@ function delete_cart($db, $cart_id){
   return execute_query($db, $sql);
 }
 
+//
 function purchase_carts($db, $carts){
   if(validate_cart_purchase($carts) === false){
     return false;
@@ -138,6 +149,12 @@ function sum_carts($carts){
   return $total_price;
 }
 
+//カートに商品がなかったらエラーを追加してfalseを返して終了
+//商品があったら表示
+//商品が非公開ならエラーを追加
+//在庫が足りなければエラーを追加
+//functions.phpのhas_error関数でエラーが入っていたらfalseを返して終了
+//エラーがなかったらtrueを返して終了
 function validate_cart_purchase($carts){
   if(count($carts) === 0){
     set_error('カートに商品が入っていません。');

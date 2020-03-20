@@ -4,7 +4,7 @@ require_once MODEL_PATH . 'db.php';
 
 // DB利用
 
-//
+//db.phpのfetch_query関数で指定された一つのレコードを取得
 function get_item($db, $item_id){
   $sql = "
     SELECT
@@ -23,6 +23,8 @@ function get_item($db, $item_id){
   return fetch_query($db, $sql);
 }
 
+//db.phpのfetch_all_query関数で指定された全てのレコードを取得
+//$is_openにtrueが入っていたら条件追加して取得
 function get_items($db, $is_open = false){
   $sql = '
     SELECT
@@ -44,14 +46,17 @@ function get_items($db, $is_open = false){
   return fetch_all_query($db, $sql);
 }
 
+//全てのレコードを取得
 function get_all_items($db){
   return get_items($db);
 }
 
+//$is_openがtrueのレコード(公開している)を全て取得
 function get_open_items($db){
   return get_items($db, true);
 }
 
+//
 function regist_item($db, $name, $price, $stock, $status, $image){
   $filename = get_upload_filename($image);
   if(validate_item($name, $price, $stock, $filename, $status) === false){

@@ -71,7 +71,7 @@ function get_errors(){
   return $errors;
 }
 
-//「$_SESSION['__errors']が入っている&$_SESSION['__errors']に入っている値の数が0でない」を返す
+//$_SESSION['__errors']が入っているかつ$_SESSION['__errors']に入っている値の数が0でなかったらtrueを返す
 function has_error(){
   return isset($_SESSION['__errors']) && count($_SESSION['__errors']) !== 0;
 }
@@ -94,28 +94,37 @@ function get_messages(){
   return $messages;
 }
 
-//get_session関数で$_SESSION['user_id']を取得し「$_SESSION['user_id']が''でない」を返す
+//get_session関数で$_SESSION['user_id']を取得し$_SESSION['user_id']が''でなかったらtrueを返す
 function is_logined(){
   return get_session('user_id') !== '';
 }
 
+//is_valid_upload_image関数がfalseなら''を返す
 function get_upload_filename($file){
   if(is_valid_upload_image($file) === false){
     return '';
   }
+  //ファイルイメージの型(拡張子)を取得
   $mimetype = exif_imagetype($file['tmp_name']);
   $ext = PERMITTED_IMAGE_TYPES[$mimetype];
+  //get_random_string関数でデフォルト(20文字)のランダムな文字列を取得
+  //拡張子と組み合わせてファイル名を作成して返す
   return get_random_string() . '.' . $ext;
 }
 
+//ランダムで文字列を取得
 function get_random_string($length = 20){
+  //hash関数でユニークな256ビットの文字列を取得し基数を16から36に変換しsubstr関数で0番目から$lengthのバイト分の文字列を返す
   return substr(base_convert(hash('sha256', uniqid()), 16, 36), 0, $length);
 }
 
+//アップロードされたファイルを移動させる
 function save_image($image, $filename){
   return move_uploaded_file($image['tmp_name'], IMAGE_DIR . $filename);
 }
 
+//IMAGE_DIR . $filenameがあったら削除してtrueを返す
+//なかったらfalseを返す
 function delete_image($filename){
   if(file_exists(IMAGE_DIR . $filename) === true){
     unlink(IMAGE_DIR . $filename);
@@ -134,28 +143,31 @@ function is_valid_length($string, $minimum_length, $maximum_length = PHP_INT_MAX
   return ($minimum_length <= $length) && ($length <= $maximum_length);
 }
 
-//
+//引数が英数字のみならtrue,違うならfalseを返す
 function is_alphanumeric($string){
   return is_valid_format($string, REGEXP_ALPHANUMERIC);
 }
 
-//
+//引数が数字のみならtrue,違うならfalseを返す
 function is_positive_integer($string){
   return is_valid_format($string, REGEXP_POSITIVE_INTEGER);
 }
 
-//
+//preg_match関数が1(一致)ならtrue,違うならfalseを返す
 function is_valid_format($string, $format){
   return preg_match($format, $string) === 1;
 }
 
 
-//
+//is_uploaded_fileがfalse(ファイルがアップロード失敗)ならエラーを追加
 function is_valid_upload_image($image){
   if(is_uploaded_file($image['tmp_name']) === false){
     set_error('ファイル形式が不正です。');
     return false;
   }
+  //exif_imagetype関数でイメージの型(拡張子)を定義する
+  //jpg,png以外ならエラーを追加してfalseを返す
+  //jpg,pngならtrueを返す
   $mimetype = exif_imagetype($image['tmp_name']);
   if( isset(PERMITTED_IMAGE_TYPES[$mimetype]) === false ){
     set_error('ファイル形式は' . implode('、', PERMITTED_IMAGE_TYPES) . 'のみ利用可能です。');
