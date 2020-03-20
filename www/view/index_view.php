@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+  <!--head.php(css,scriptなど)の読み込み-->
   <?php include VIEW_PATH . 'templates/head.php'; ?>
   
   <title>商品一覧</title>
+  <!--cssファイルの読み込み-->
   <link rel="stylesheet" href="<?php print(STYLESHEET_PATH . 'index.css'); ?>">
 </head>
 <body>
@@ -12,6 +14,7 @@
 
   <div class="container">
     <h1>商品一覧</h1>
+    <!--phpファイルの読み込み-->
     <?php include VIEW_PATH . 'templates/messages.php'; ?>
 
     <div class="card-deck">
@@ -26,12 +29,14 @@
               <img class="card-img" src="<?php print(IMAGE_PATH . $item['image']); ?>">
               <figcaption>
                 <?php print(number_format($item['price'])); ?>円
+                <!--ストックが0より大きい場合表示-->
                 <?php if($item['stock'] > 0){ ?>
                   <form action="index_add_cart.php" method="post">
                     <input type="submit" value="カートに追加" class="btn btn-primary btn-block">
                     <input type="hidden" name="item_id" value="<?php print($item['item_id']); ?>">
                   </form>
                 <?php } else { ?>
+                  <!--ストックが0より小さい場合表示-->
                   <p class="text-danger">現在売り切れです。</p>
                 <?php } ?>
               </figcaption>

@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+  <!--head.php(css,scriptなど)の読み込み-->
   <?php include VIEW_PATH . 'templates/head.php'; ?>
   <title>商品管理</title>
+  <!--cssファイルの読み込み-->
   <link rel="stylesheet" href="<?php print(STYLESHEET_PATH . 'admin.css'); ?>">
 </head>
 <body>
+  <!--phpファイルの読み込み-->
   <?php 
   include VIEW_PATH . 'templates/header_logined.php'; 
   ?>
@@ -13,8 +16,10 @@
   <div class="container">
     <h1>商品管理</h1>
 
+    <!--phpファイルの読み込み-->
     <?php include VIEW_PATH . 'templates/messages.php'; ?>
 
+    <!--商品の追加-->
     <form 
       method="post" 
       action="admin_insert_item.php" 
@@ -48,6 +53,7 @@
     </form>
 
 
+    <!--商品数が0より大きい場合表示-->
     <?php if(count($items) > 0){ ?>
       <table class="table table-bordered text-center">
         <thead class="thead-light">
@@ -66,6 +72,7 @@
             <td><?php print($item['name']); ?></td>
             <td><?php print(number_format($item['price'])); ?>円</td>
             <td>
+              <!--商品ストックの変更-->
               <form method="post" action="admin_change_stock.php">
                 <div class="form-group">
                   <!-- sqlインジェクション確認のためあえてtext -->
@@ -77,7 +84,7 @@
               </form>
             </td>
             <td>
-
+              <!--商品の公開、非公開変更-->
               <form method="post" action="admin_change_status.php" class="operation">
                 <?php if(is_open($item) === true){ ?>
                   <input type="submit" value="公開 → 非公開" class="btn btn-secondary">
@@ -89,6 +96,7 @@
                 <input type="hidden" name="item_id" value="<?php print($item['item_id']); ?>">
               </form>
 
+              <!--商品の削除-->
               <form method="post" action="admin_delete_item.php">
                 <input type="submit" value="削除" class="btn btn-danger delete">
                 <input type="hidden" name="item_id" value="<?php print($item['item_id']); ?>">
@@ -99,6 +107,7 @@
           <?php } ?>
         </tbody>
       </table>
+    <!--商品数が0より大きい場合表示-->
     <?php } else { ?>
       <p>商品はありません。</p>
     <?php } ?> 

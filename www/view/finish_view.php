@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+  <!--head.php(css,scriptなど)の読み込み-->
   <?php include VIEW_PATH . 'templates/head.php'; ?>
   <title>ご購入ありがとうございました！</title>
+  <!--cssファイルの読み込み-->
   <link rel="stylesheet" href="<?php print(STYLESHEET_PATH . 'admin.css'); ?>">
 </head>
 <body>
+  <!--phpファイルの読み込み-->
   <?php include VIEW_PATH . 'templates/header_logined.php'; ?>
   <h1>ご購入ありがとうございました！</h1>
 
   <div class="container">
+    <!--phpファイルの読み込み-->
     <?php include VIEW_PATH . 'templates/messages.php'; ?>
 
+    <!--カートの数が0より大きい場合表示-->
     <?php if(count($carts) > 0){ ?>
       <table class="table table-bordered">
         <thead class="thead-light">
@@ -38,6 +43,7 @@
         </tbody>
       </table>
       <p class="text-right">合計金額: <?php print number_format($total_price); ?>円</p>
+    <!--カートの数が0より小さい場合表示-->
     <?php } else { ?>
       <p>カートに商品はありません。</p>
     <?php } ?> 

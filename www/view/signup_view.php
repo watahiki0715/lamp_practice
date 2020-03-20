@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+  <!--head.php(css,scriptなど)の読み込み-->
   <?php include VIEW_PATH . 'templates/head.php'; ?>
   <title>サインアップ</title>
+  <!--cssファイルの読み込み-->
   <link rel="stylesheet" href="<?php print(STYLESHEET_PATH . 'signup.css'); ?>">
 </head>
 <body>
+  <!--phpファイル(header部)の読み込み-->
   <?php include VIEW_PATH . 'templates/header.php'; ?>
   <div class="container">
     <h1>ユーザー登録</h1>
 
+    <!--phpファイル(message部)の読み込み-->
     <?php include VIEW_PATH . 'templates/messages.php'; ?>
 
+    <!--登録が押されたら入力された値を「signup_process.php"」にPOST-->
     <form method="post" action="signup_process.php" class="signup_form mx-auto">
       <div class="form-group">
         <label for="name">名前: </label>
