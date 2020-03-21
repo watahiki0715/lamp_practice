@@ -5,7 +5,7 @@
   <?php include VIEW_PATH . 'templates/head.php'; ?>
   <title>商品管理</title>
   <!--cssファイルの読み込み-->
-  <link rel="stylesheet" href="<?php print(STYLESHEET_PATH . 'admin.css'); ?>">
+  <link rel="stylesheet" href="<?php print(h(STYLESHEET_PATH . 'admin.css')); ?>">
 </head>
 <body>
   <!--phpファイルの読み込み-->

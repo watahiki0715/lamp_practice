@@ -5,7 +5,7 @@
   <?php include VIEW_PATH . 'templates/head.php'; ?>
   <title>カート</title>
   <!--cssファイルの読み込み-->
-  <link rel="stylesheet" href="<?php print(STYLESHEET_PATH . 'cart.css'); ?>">
+  <link rel="stylesheet" href="<?php print(h(STYLESHEET_PATH . 'cart.css')); ?>">
 </head>
 <body>
   <!--phpファイルの読み込み-->
