@@ -24,9 +24,10 @@ function get_user_carts($db, $user_id){
     ON
       carts.item_id = items.item_id
     WHERE
-      carts.user_id = {$user_id}
+      carts.user_id = :user_id
   ";
-  return fetch_all_query($db, $sql);
+  $params = array(':user_id' => $user_id);
+  return fetch_all_query($db, $sql, $params);
 }
 
 //user_idとitem_idが一致したcartテーブルのレコードを一つ取得
@@ -50,12 +51,12 @@ function get_user_cart($db, $user_id, $item_id){
     ON
       carts.item_id = items.item_id
     WHERE
-      carts.user_id = {$user_id}
+      carts.user_id = :user_id
     AND
-      items.item_id = {$item_id}
+      items.item_id = :item_id
   ";
-
-  return fetch_query($db, $sql);
+  $params = array(':user_id' => $user_id, ':item_id' => $item_id);
+  return fetch_query($db, $sql, $params);
 
 }
 
@@ -78,10 +79,10 @@ function insert_cart($db, $user_id, $item_id, $amount = 1){
         user_id,
         amount
       )
-    VALUES({$item_id}, {$user_id}, {$amount})
+    VALUES(':item_id', ':user_id', ':amount')
   ";
-
-  return execute_query($db, $sql);
+  $params = array(':item_id' => $item_id, ':user_id' => $user_id, ':amount' => $amount);
+  return execute_query($db, $sql, $params);
 }
 
 //カートの商品のamountを更新
