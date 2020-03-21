@@ -3,7 +3,8 @@
 <head>
   <!--head.php(css,scriptなど)の読み込み-->
   <?php include VIEW_PATH . 'templates/head.php'; ?>
-  
+  <?php include MODEL_PATH . 'functions.php'; ?>
+
   <title>商品一覧</title>
   <!--cssファイルの読み込み-->
   <link rel="stylesheet" href="<?php print(STYLESHEET_PATH . 'index.css'); ?>">
