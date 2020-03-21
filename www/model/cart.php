@@ -79,7 +79,7 @@ function insert_cart($db, $user_id, $item_id, $amount = 1){
         user_id,
         amount
       )
-    VALUES(':item_id', ':user_id', ':amount')
+    VALUES(:item_id, :user_id, :amount)
   ";
   $params = array(':item_id' => $item_id, ':user_id' => $user_id, ':amount' => $amount);
   return execute_query($db, $sql, $params);
@@ -91,12 +91,13 @@ function update_cart_amount($db, $cart_id, $amount){
     UPDATE
       carts
     SET
-      amount = {$amount}
+      amount = :amount
     WHERE
-      cart_id = {$cart_id}
+      cart_id = :cart_id
     LIMIT 1
   ";
-  return execute_query($db, $sql);
+  $params = array(':amount' => $amount, ':cart_id' => $cart_id);
+  return execute_query($db, $sql, $params);
 }
 
 //カート商品を削除
@@ -105,11 +106,11 @@ function delete_cart($db, $cart_id){
     DELETE FROM
       carts
     WHERE
-      cart_id = {$cart_id}
+      cart_id = :cart_id
     LIMIT 1
   ";
-
-  return execute_query($db, $sql);
+  $params = array(':cart_id' => $cart_id);
+  return execute_query($db, $sql, $params);
 }
 
 //validate_cart_purchase関数がfalseならfalseを返して終了
@@ -139,10 +140,10 @@ function delete_user_carts($db, $user_id){
     DELETE FROM
       carts
     WHERE
-      user_id = {$user_id}
+      user_id = :user_id
   ";
-
-  execute_query($db, $sql);
+  $params = array(':user_id' => $user_id);
+  execute_query($db, $sql, $params);
 }
 
 
