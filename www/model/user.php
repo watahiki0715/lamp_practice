@@ -17,6 +17,7 @@ function get_user($db, $user_id){
       user_id = :user_id
     LIMIT 1
   ";
+  //SQLインジェクション対策
   $params = array(':user_id' => $user_id);
   //db.phpのfetch_queryでレコードを取得
   return fetch_query($db, $sql, $params);
@@ -36,6 +37,7 @@ function get_user_by_name($db, $name){
       name = :name
     LIMIT 1
   ";
+  //SQLインジェクション対策
   $params = array(':name' => $name);
   //db.phpのfetch_queryでレコードを取得
   return fetch_query($db, $sql, $params);
@@ -128,6 +130,7 @@ function insert_user($db, $name, $password){
       users(name, password)
     VALUES (:name, :password);
   ";
+  //SQLインジェクション対策
   $params = array(':name' => $name, ':password' => $password);
   //DBテーブルを更新
   return execute_query($db, $sql);

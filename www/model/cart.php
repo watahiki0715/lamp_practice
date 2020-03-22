@@ -26,6 +26,7 @@ function get_user_carts($db, $user_id){
     WHERE
       carts.user_id = :user_id
   ";
+  //SQLインジェクション対策
   $params = array(':user_id' => $user_id);
   return fetch_all_query($db, $sql, $params);
 }
@@ -56,6 +57,7 @@ function get_user_cart($db, $user_id, $item_id){
     AND
       items.item_id = :item_id
   ";
+  //SQLインジェクション対策
   $params = array(':user_id' => $user_id, ':item_id' => $item_id);
   return fetch_query($db, $sql, $params);
 
@@ -82,6 +84,7 @@ function insert_cart($db, $user_id, $item_id, $amount = 1){
       )
     VALUES(:item_id, :user_id, :amount)
   ";
+  //SQLインジェクション対策
   $params = array(':item_id' => $item_id, ':user_id' => $user_id, ':amount' => $amount);
   return execute_query($db, $sql, $params);
 }
@@ -97,6 +100,7 @@ function update_cart_amount($db, $cart_id, $amount){
       cart_id = :cart_id
     LIMIT 1
   ";
+  //SQLインジェクション対策
   $params = array(':amount' => $amount, ':cart_id' => $cart_id);
   return execute_query($db, $sql, $params);
 }
@@ -110,6 +114,7 @@ function delete_cart($db, $cart_id){
       cart_id = :cart_id
     LIMIT 1
   ";
+  //SQLインジェクション対策
   $params = array(':cart_id' => $cart_id);
   return execute_query($db, $sql, $params);
 }
@@ -143,6 +148,7 @@ function delete_user_carts($db, $user_id){
     WHERE
       user_id = :user_id
   ";
+  //SQLインジェクション対策
   $params = array(':user_id' => $user_id);
   execute_query($db, $sql, $params);
 }
