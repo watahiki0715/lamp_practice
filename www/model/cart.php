@@ -29,6 +29,7 @@ function get_user_carts($db, $user_id){
   $params = array(':user_id' => $user_id);
   return fetch_all_query($db, $sql, $params);
 }
+$params = array(':user_id' => $user_id);
 
 //user_idとitem_idが一致したcartテーブルのレコードを一つ取得
 //失敗したらfalseを返す
