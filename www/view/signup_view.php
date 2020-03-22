@@ -5,7 +5,7 @@
   <?php include VIEW_PATH . 'templates/head.php'; ?>
   <title>サインアップ</title>
   <!--cssファイルの読み込み-->
-  <link rel="stylesheet" href="<?php print(STYLESHEET_PATH . 'signup.css'); ?>">
+  <link rel="stylesheet" href="<?php print(h(STYLESHEET_PATH . 'signup.css')); ?>">
 </head>
 <body>
   <!--phpファイル(header部)の読み込み-->
