@@ -133,6 +133,6 @@ function insert_user($db, $name, $password){
   //SQLインジェクション対策
   $params = array(':name' => $name, ':password' => $password);
   //DBテーブルを更新
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, $params);
 }
 
