@@ -13,6 +13,13 @@ if(is_logined() === false){
   redirect_to(LOGIN_URL);
 }
 
+//CSRFの対策
+$token = get_post('csrf_token');
+if(is_valid_csrf_token($token)===false){
+  redirect_to(HOME_URL);
+}
+unset($_SESSION['csrf_token']);
+
 //データベースに接続
 $db = get_db_connect();
 //ログインしているユーザーのレコードを取得

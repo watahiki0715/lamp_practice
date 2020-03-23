@@ -1,3 +1,5 @@
+<!--iframeによるサイトの読み込みを禁止-->
+<?php header("X-FRAME-OPTIONS: DENY"); ?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>

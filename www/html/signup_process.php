@@ -12,6 +12,13 @@ if(is_logined() === true){
   redirect_to(HOME_URL);
 }
 
+//CSRFの対策
+$token = get_post('csrf_token');
+if(is_valid_csrf_token($token)===false){
+  redirect_to(HOME_URL);
+}
+unset($_SESSION['csrf_token']);
+
 //functions.phpのget_post関数でPOSTされた値を取得
 $name = get_post('name');
 $password = get_post('password');
