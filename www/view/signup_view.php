@@ -32,7 +32,7 @@
         <input type="password" name="password_confirmation" id="password_confirmation" class="form-control">
       </div>
       <input type="submit" value="登録" class="btn btn-primary">
-      <input type="hidden" name="csrf_token" value="<?php print(h(get_csrf_token())); ?>">
+      <input type="hidden" name="csrf_token" value="<?php print(h($token)); ?>">
     </form>
   </div>
 </body>
