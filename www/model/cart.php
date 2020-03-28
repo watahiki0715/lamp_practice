@@ -199,10 +199,8 @@ function insert_history($db, $user_id, $total){
   ";
   //SQLインジェクション対策
   $params = array(':user_id' => $user_id, ':total' => $total);
-  // SQL文を実行する準備
-  $statement = $db->prepare($sql);
   // SQLを実行
-  return $statement->execute($params);
+  return execute_query($db, $sql, $params);
 }
 
 //user_idが一致したhistoryテーブルのレコード全て取得
@@ -216,22 +214,20 @@ function get_user_history($db, $user_id){
       history
     WHERE
       user_id = :user_id
-    ORDER BY history_id DESC
+    ORDER BY 
+      history_id DESC
   ";
   //SQLインジェクション対策
   $params = array(':user_id' => $user_id);
-  // SQL文を実行する準備
-  $statement = $db->prepare($sql);
-  // SQLを実行
-  $statement->execute($params);
   // レコードの取得
-  $history = $statement->fetch();
+  $history = fetch_query($db, $sql, $params);
   //購入履歴のidを取得
   return $history['history_id'];
 }
 
 //購入明細に登録
-function insert_details($db, $carts, $history_id){
+function insert_details($db, $carts, $user_id){
+  $history_id = get_user_history($db, $user_id);
   foreach($carts as $cart){
     $item_id = $cart['item_id'];
     $amount = $cart['amount'];
@@ -249,35 +245,25 @@ function insert_details($db, $carts, $history_id){
     ";
     //SQLインジェクション対策
     $params = array(':history_id' => $history_id, ':item_id' => $item_id, ':amount' => $amount, ':subtotal' => $subtotal);
-    // SQL文を実行する準備
-    $statement = $db->prepare($sql);
     // SQLを実行
-    $statement->execute($params);
+    if(execute_query($db, $sql, $params) === false){
+      return false;
+    }
   }
-  return;
+  return true;
 }
 
 //購入履歴と購入明細を登録
 function insert_history_details($db, $user_id, $total, $carts){
-  try{
     $db->beginTransaction();
-    try{
-      //購入履歴に登録
-      insert_history($db, $user_id, $total);
-      //購入履歴idを取得
-      $history_id = get_user_history($db, $user_id);
-      //購入明細に登録
-      insert_details($db, $carts, $history_id);
+    //購入履歴と購入明細を登録
+    if(insert_history($db, $user_id, $total)
+      && insert_details($db, $carts, $user_id)){
       // コミット処理
-      return $db->commit();
-    } catch (PDOException $e) {
-      // ロールバック処理
-      $db->rollback();
-      // 例外をスロー
-      throw $e;
+      $db->commit();
+      return true;
     }
-  } catch (PDOException $e) {
-    set_error('データ取得に失敗しました。');
-  }
-  return false;
+    // ロールバック処理
+    $db->rollback();
+    return false;
 }

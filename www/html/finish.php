@@ -38,7 +38,10 @@ if(purchase_carts($db, $carts) === false){
 //商品の合計金額を取得
 $total_price = sum_carts($carts);
 //購入履歴と購入明細を登録
-insert_history_details($db, $user['user_id'], $total_price, $carts);
+if(insert_history_details($db, $user['user_id'], $total_price, $carts) === false){
+  set_error('購入履歴が登録できませんでした。');
+  redirect_to(CART_URL);
+}
 
 //finish_view.phpの読み込み
 include_once '../view/finish_view.php';
