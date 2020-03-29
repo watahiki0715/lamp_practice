@@ -39,7 +39,6 @@
                 <input type="hidden" name="created" value="<?php print(h($history['created'])); ?>">
                 <input type="hidden" name="total" value="<?php print(h($history['total'])); ?>">
                 <input type="hidden" name="user_id" value="<?php print(h($history['user_id'])); ?>">
-                <input type="hidden" name="csrf_token" value="<?php print(h($token)); ?>">
               </form>
             </td>
           </tr>

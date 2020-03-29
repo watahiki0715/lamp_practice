@@ -14,9 +14,6 @@ if(is_logined() === false){
   redirect_to(LOGIN_URL);
 }
 
-//トークン作成
-$token = get_csrf_token();
-
 //データベースに接続
 $db = get_db_connect();
 
