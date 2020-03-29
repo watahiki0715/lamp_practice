@@ -240,3 +240,29 @@ function is_valid_item_status($status){
   }
   return $is_valid;
 }
+
+//ページ数ごとに商品を取得
+function get_items_page($db, $page){
+  $sql = '
+    SELECT
+      item_id, 
+      name,
+      stock,
+      price,
+      image,
+      status
+    FROM
+      items
+    WHERE
+      status = 1
+    LIMIT
+  ';
+  if($page !== 1){
+    $limit = ($page - 1) * 8;
+    $sql .= "$limit,8";
+  }else{
+    $sql .= '8'; 
+  }
+
+  return fetch_all_query($db, $sql);
+}
