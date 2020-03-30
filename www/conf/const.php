@@ -52,3 +52,6 @@ define('PERMITTED_IMAGE_TYPES', array(
   IMAGETYPE_JPEG => 'jpg',
   IMAGETYPE_PNG => 'png',
 ));
+
+//1ページに表示する商品件数
+define('DISPLAY_ITEMS', 8);

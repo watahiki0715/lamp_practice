@@ -51,7 +51,7 @@
     </div>
     <ul class="list-inline">
       <!--1ページ目以外の時に前へを表示-->
-      <?php if((int)$page !== 1){
+      <?php if($page !== 1){
         $previous = $page - 1; ?>
         <li class="list-inline-item">
           <a href="index.php?page=<?php print (h($previous)); ?>">前へ</a>
@@ -59,9 +59,10 @@
       <?php } ?>
       <!--ページ数のリンクを表示-->
       <?php $i = $page_count;
+        $count = 0;
         while($i >= 1){
           $count = $count + 1;
-          if($count !== (int)$page){ ?>
+          if($count !== $page){ ?>
             <li class="list-inline-item">
               <a href="index.php?page=<?php print (h($count)); ?>"><?php print (h($count)); ?></a>
             </li>  
@@ -74,7 +75,7 @@
           $i = $i - 1; 
       } ?>
       <!--最後のページ以外の時に次へを表示-->
-      <?php if((int)$page !== (int)$page_count){
+      <?php if($page !== $page_count){
         $next = $page + 1; ?>
         <li class="list-inline-item">
           <a href="index.php?page=<?php print (h($next)); ?>">次へ</a>

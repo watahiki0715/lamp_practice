@@ -1,4 +1,6 @@
 <?php
+//定数ファイルを読み込み
+require_once '../conf/const.php';
 require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
 
@@ -257,12 +259,10 @@ function get_items_page($db, $page){
       status = 1
     LIMIT
   ';
-  if($page !== 1){
-    $limit = ($page - 1) * 8;
-    $sql .= "$limit,8";
-  }else{
-    $sql .= '8'; 
-  }
+
+  //ページごとの商品レコードを取得
+  $limit = ($page - 1) * DISPLAY_ITEMS;
+  $sql .= "$limit,".DISPLAY_ITEMS;
 
   return fetch_all_query($db, $sql);
 }
