@@ -260,7 +260,6 @@ function get_items_page($db, $page){
     LIMIT
   ';
 
-  //ページごとの商品レコードを取得
   $limit = ($page - 1) * DISPLAY_ITEMS;
   $sql .= "$limit,".DISPLAY_ITEMS;
 
