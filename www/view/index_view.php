@@ -21,7 +21,7 @@
 
     <div class="card-deck">
       <div class="row">
-      <?php foreach($items as $item){ ?>
+      <?php foreach($items_page as $item){ ?>
         <div class="col-6 item">
           <div class="card h-100 text-center">
             <div class="card-header">
@@ -49,6 +49,46 @@
       <?php } ?>
       </div>
     </div>
+    <ul class="list-inline">
+      <!--1ページ目以外の時に前へを表示-->
+      <?php if($page !== 1){
+        $previous = $page - 1; ?>
+        <li class="list-inline-item">
+          <a href="index.php?page=<?php print (h($previous)); ?>">前へ</a>
+        </li>
+      <?php } ?>
+      <!--ページ数のリンクを表示-->
+      <?php $i = $page_count;
+        $count = 0;
+        while($i >= 1){
+          $count = $count + 1;
+          if($count !== $page){ ?>
+            <li class="list-inline-item">
+              <a href="index.php?page=<?php print (h($count)); ?>"><?php print (h($count)); ?></a>
+            </li>  
+          <?php }else{ ?>
+            <!--現在のページ数のリンクの色を変える-->
+            <li class="list-inline-item">
+              <a class="text-dark" href="index.php?page=<?php print (h($count)); ?>"><?php print (h($count)); ?></a>
+            </li>  
+          <?php }
+          $i = $i - 1; 
+      } ?>
+      <!--最後のページ以外の時に次へを表示-->
+      <?php if($page !== $page_count){
+        $next = $page + 1; ?>
+        <li class="list-inline-item">
+          <a href="index.php?page=<?php print (h($next)); ?>">次へ</a>
+        </li>
+      <?php } ?>
+      <!--商品件数を表示-->
+      <li class="list-inline-item">
+        <span>
+          <?php print (h($items_count)); ?>件中
+          <?php print (h($item_first.'-'.$item_last)); ?>件目の商品
+        </span>
+      </li>
+    </ul>
   </div>
   
 </body>

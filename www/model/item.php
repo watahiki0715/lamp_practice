@@ -1,4 +1,6 @@
 <?php
+//定数ファイルを読み込み
+require_once '../conf/const.php';
 require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'db.php';
 
@@ -239,4 +241,27 @@ function is_valid_item_status($status){
     $is_valid = false;
   }
   return $is_valid;
+}
+
+//ページ数ごとに商品を取得
+function get_items_page($db, $page){
+  $sql = '
+    SELECT
+      item_id, 
+      name,
+      stock,
+      price,
+      image,
+      status
+    FROM
+      items
+    WHERE
+      status = 1
+    LIMIT
+  ';
+
+  $limit = ($page - 1) * DISPLAY_ITEMS;
+  $sql .= "$limit,".DISPLAY_ITEMS;
+
+  return fetch_all_query($db, $sql);
 }
